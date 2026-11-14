@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Healthcare</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --card: #ffffff;
+        --blue: #2563eb;
+        --blue-dark: #1d4ed8;
+        --green: #16a34a;
+        --red: #dc2626;
+        --text: #0f172a;
+        --muted: #475569;
+        --line: #dbe4f0;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      }
+      h1 { margin: 0 0 12px; }
+      h2 { margin-top: 0; }
+      .subtitle { color: var(--muted); margin-bottom: 24px; }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 18px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-weight: 600;
+        color: var(--muted);
+      }
+      input, select {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        font-size: 1rem;
+      }
+      button {
+        margin-top: 22px;
+        background: var(--blue);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover { background: var(--blue-dark); }
+      .result {
+        margin-top: 26px;
+        border-radius: 12px;
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+      }
+      .result.high { background: #fef2f2; border-color: #fecaca; }
+      .result.low { background: #f0fdf4; border-color: #bbf7d0; }
+      .risk { font-size: 1.3rem; font-weight: 700; }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-top: 12px;
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .muted { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Smart Healthcare</h1>
+        <div class="subtitle">Diabetes risk prediction with the best validated model.</div>
+
+        <form id="diabetesForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="age">Age</label>
+              <input id="age" name="age" type="number" value="54" step="1" />
+            </div>
+            <div class="field">
+              <label for="hypertension">Hypertension</label>
+              <select id="hypertension" name="hypertension">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="heart_disease">Heart Disease</label>
+              <select id="heart_disease" name="heart_disease">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="smoking_history">Smoking History</label>
+              <select id="smoking_history" name="smoking_history">
+                <option value="No Info">No Info</option>
+                <option value="never">Never</option>
+                <option value="former">Former</option>
+                <option value="current">Current</option>
+                <option value="ever">Ever</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bmi">BMI</label>
+              <input id="bmi" name="bmi" type="number" value="27.32" step="0.1" />
+            </div>
+            <div class="field">
+              <label for="HbA1c_level">HbA1c Level</label>
+              <input id="HbA1c_level" name="HbA1c_level" type="number" value="6.6" step="0.1" />
+            </div>
+            <div class="field">
+              <label for="blood_glucose_level">Blood Glucose</label>
+              <input id="blood_glucose_level" name="blood_glucose_level" type="number" value="80" step="1" />
+            </div>
+          </div>
+
+          <button type="submit">Predict Diabetes</button>
+        </form>
+
+        <div id="resultBox" class="result" style="display:none;"></div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('diabetesForm');
+      const resultBox = document.getElementById('resultBox');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          gender: document.getElementById('gender').value,
+          age: Number(document.getElementById('age').value),
+          hypertension: Number(document.getElementById('hypertension').value),
+          heart_disease: Number(document.getElementById('heart_disease').value),
+          smoking_history: document.getElementById('smoking_history').value,
+          bmi: Number(document.getElementById('bmi').value),
+          HbA1c_level: Number(document.getElementById('HbA1c_level').value),
+          blood_glucose_level: Number(document.getElementById('blood_glucose_level').value),
+        };
+
+        try {
+          const response = await fetch('http://127.0.0.1:8000/predict/diabetes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error('Prediction failed');
+          }
+
+          const data = await response.json();
+          const isHigh = data.prediction === 1 || data.risk_level === 'High';
+          resultBox.className = isHigh ? 'result high' : 'result low';
+          resultBox.style.display = 'block';
+          resultBox.innerHTML = `
+            <div class="risk">${isHigh ? '⚠️ High Risk' : '✅ Low Risk'}</div>
+            <div class="muted">Probability: ${(Number(data.probability) * 100).toFixed(1)}%</div>
+            <div class="badge">Risk level: ${data.risk_level}</div>
+            <div class="muted" style="margin-top:12px;">${data.message}</div>
+          `;
+        } catch (error) {
+          resultBox.className = 'result high';
+          resultBox.style.display = 'block';
+          resultBox.innerHTML = '<div class="risk">⚠️ Error</div><div class="muted">The API is not running on port 8000.</div>';
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+.env
+.venv/
+venv/
+__pycache__/
+.vscode/
+node_modules/
+dist/
+src/tempCodeRunnerFile.py
+*.py[cod]
+data/auth.sqlite3
+new frontend/dist/

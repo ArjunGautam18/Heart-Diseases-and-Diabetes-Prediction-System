@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heart Disease Risk Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <h1>Heart Disease Risk Prediction</h1>
+      <nav class="nav-links">
+        <a href="{{ url_for('home_page') }}">Home</a>
+        <a href="{{ url_for('heart_page') }}">Heart</a>
+        <a href="{{ url_for('diabetes_page') }}">Diabetes</a>
+        <a href="{{ url_for('about_page') }}">About</a>
+      </nav>
+    </header>
+
+    {% if error %}
+      <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('heart_page') }}" class="form-box">
+      <div class="grid two">
+        <label>Age<input name="age" type="number" min="1" max="120" step="1" value="{{ values.age if values else '' }}" required></label>
+        <label>Sex<input name="sex" type="number" min="0" max="1" step="1" value="{{ values.sex if values else '' }}" placeholder="0 or 1" required></label>
+        <label>Chest Pain Type<input name="cp" type="number" min="0" max="3" step="1" value="{{ values.cp if values else '' }}" placeholder="0-3" required></label>
+        <label>Resting Blood Pressure<input name="trestbps" type="number" min="40" max="300" step="1" value="{{ values.trestbps if values else '' }}" required></label>
+        <label>Cholesterol<input name="chol" type="number" min="50" max="600" step="1" value="{{ values.chol if values else '' }}" required></label>
+        <label>Fasting Blood Sugar<input name="fbs" type="number" min="0" max="1" step="1" value="{{ values.fbs if values else '' }}" placeholder="0 or 1" required></label>
+        <label>Resting ECG<input name="restecg" type="number" min="0" max="2" step="1" value="{{ values.restecg if values else '' }}" placeholder="0-2" required></label>
+        <label>Maximum Heart Rate<input name="thalach" type="number" min="40" max="250" step="1" value="{{ values.thalach if values else '' }}" required></label>
+        <label>Exercise Angina<input name="exang" type="number" min="0" max="1" step="1" value="{{ values.exang if values else '' }}" placeholder="0 or 1" required></label>
+        <label>Oldpeak<input name="oldpeak" type="number" min="0" max="10" step="0.1" value="{{ values.oldpeak if values else '' }}" required></label>
+        <label>Slope<input name="slope" type="number" min="0" max="2" step="1" value="{{ values.slope if values else '' }}" placeholder="0-2" required></label>
+        <label>CA<input name="ca" type="number" min="0" max="4" step="1" value="{{ values.ca if values else '' }}" placeholder="0-4" required></label>
+        <label>Thal<input name="thal" type="number" min="0" max="7" step="1" value="{{ values.thal if values else '' }}" placeholder="0-7" required></label>
+      </div>
+      <button type="submit">Predict Heart Disease Risk</button>
+    </form>
+
+    {% if result %}
+      <div class="result-box">
+        <h2>Prediction Result</h2>
+        <p><strong>Prediction Probability:</strong> {{ '%.2f' % (result.probability * 100) }}%</p>
+        <p><strong>Risk Classification:</strong> {{ result.risk_label }}</p>
+        <p class="disclaimer">This result is a machine-learning risk estimate and is not a medical diagnosis. Please consult a qualified healthcare professional for medical advice.</p>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

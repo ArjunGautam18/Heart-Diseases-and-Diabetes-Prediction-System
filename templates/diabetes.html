@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diabetes Risk Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <h1>Diabetes Risk Prediction</h1>
+      <nav class="nav-links">
+        <a href="{{ url_for('home_page') }}">Home</a>
+        <a href="{{ url_for('heart_page') }}">Heart</a>
+        <a href="{{ url_for('diabetes_page') }}">Diabetes</a>
+        <a href="{{ url_for('about_page') }}">About</a>
+      </nav>
+    </header>
+
+    {% if error %}
+      <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('diabetes_page') }}" class="form-box">
+      <div class="grid two">
+        <label>Pregnancies<input name="Pregnancies" type="number" min="0" max="20" step="1" value="{{ values.Pregnancies if values else '' }}" required></label>
+        <label>Glucose<input name="Glucose" type="number" min="1" max="300" step="1" value="{{ values.Glucose if values else '' }}" required></label>
+        <label>Blood Pressure<input name="BloodPressure" type="number" min="1" max="200" step="1" value="{{ values.BloodPressure if values else '' }}" required></label>
+        <label>Skin Thickness<input name="SkinThickness" type="number" min="0" max="100" step="1" value="{{ values.SkinThickness if values else '' }}" required></label>
+        <label>Insulin<input name="Insulin" type="number" min="0" max="1000" step="1" value="{{ values.Insulin if values else '' }}" required></label>
+        <label>BMI<input name="BMI" type="number" min="1" max="80" step="0.1" value="{{ values.BMI if values else '' }}" required></label>
+        <label>Diabetes Pedigree Function<input name="DiabetesPedigreeFunction" type="number" min="0" max="3" step="0.001" value="{{ values.DiabetesPedigreeFunction if values else '' }}" required></label>
+        <label>Age<input name="Age" type="number" min="1" max="120" step="1" value="{{ values.Age if values else '' }}" required></label>
+      </div>
+      <button type="submit">Predict Diabetes Risk</button>
+    </form>
+
+    {% if result %}
+      <div class="result-box">
+        <h2>Prediction Result</h2>
+        <p><strong>Prediction Probability:</strong> {{ '%.2f' % (result.probability * 100) }}%</p>
+        <p><strong>Risk Classification:</strong> {{ result.risk_label }}</p>
+        <p class="disclaimer">This result is a machine-learning risk estimate and is not a medical diagnosis. Please consult a qualified healthcare professional for medical advice.</p>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

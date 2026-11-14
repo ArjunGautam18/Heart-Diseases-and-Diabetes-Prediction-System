@@ -1,0 +1,6 @@
+{
+  "name": "HeartCare AI",
+  "description": "A symptom-based heart disease and diabetes risk-screening application with patient data management and screening history.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

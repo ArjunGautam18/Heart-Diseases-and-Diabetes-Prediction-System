@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About the System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container narrow">
+    <header class="topbar">
+      <h1>About System</h1>
+      <nav class="nav-links">
+        <a href="{{ url_for('home_page') }}">Home</a>
+        <a href="{{ url_for('heart_page') }}">Heart</a>
+        <a href="{{ url_for('diabetes_page') }}">Diabetes</a>
+        <a href="{{ url_for('about_page') }}">About</a>
+      </nav>
+    </header>
+
+    <div class="info-box">
+      <p>This project is a simple machine-learning screening system created for educational and academic use.</p>
+      <p>It predicts heart disease risk and diabetes risk using patient information that is entered in the form. The models are trained and evaluated using real health datasets, and the same preprocessing pipeline is used during both training and prediction.</p>
+      <p>Results are estimates only and should not be interpreted as medical diagnoses.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+flowchart TD
+    A[User Input<br/>Age, Gender, BMI, Blood Pressure<br/>Glucose, Cholesterol, Symptoms] --> B[Web Application Interface<br/>React Frontend]
+
+    B --> C[FastAPI Backend<br/>Request Handling and Validation]
+
+    C --> D[Data Preprocessing<br/>Missing Value Handling<br/>Feature Engineering<br/>Encoding and Scaling]
+
+    D --> E[Machine Learning Models]
+
+    E --> F[Heart Disease Prediction Model<br/>Random Forest / Logistic Regression<br/>Decision Tree / Gradient Boosting]
+    E --> G[Diabetes Prediction Model<br/>Trained Classification Models]
+
+    F --> H[Heart Disease Risk]
+    G --> I[Diabetes Risk]
+
+    H --> J[Risk Assessment Engine<br/>Low / Medium / High]
+    I --> J
+
+    J --> K[Health Score Engine<br/>Score: 0-100]
+
+    K --> L[Recommendation System<br/>Diet, Exercise and Health Tips]
+
+    L --> M[Dashboard<br/>Prediction Results, Risk Level,<br/>Health Score and Graphs]
+
+    C --> N[Health Coach Chatbot]
+    N --> M

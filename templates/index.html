@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heart Disease and Diabetes Prediction System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container narrow">
+    <h1>Heart Disease and Diabetes Prediction System</h1>
+    <p>This system uses machine learning models to estimate the risk of heart disease and diabetes based on information entered by the user.</p>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('heart_page') }}">Heart Disease Prediction</a>
+      <a href="{{ url_for('diabetes_page') }}">Diabetes Prediction</a>
+      <a href="{{ url_for('about_page') }}">About System</a>
+    </nav>
+  </div>
+</body>
+</html>
